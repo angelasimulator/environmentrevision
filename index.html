@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小小探險家：生物與環境大冒險</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts for playful typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#4ADE80',
+                            darkgreen: '#16A34A',
+                            sky: '#38BDF8',
+                            yellow: '#FACC15',
+                            orange: '#FB923C',
+                            pink: '#F472B6',
+                            purple: '#A855F7',
+                            cream: '#FEF9C3'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Fredoka', 'Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            background: linear-gradient(180deg, #BAE6FD 0%, #E0F2FE 40%, #DCFCE7 100%);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Cartoon Bouncy Animation Effects */
+        .bounce-hover {
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .bounce-hover:active {
+            transform: scale(0.92);
+        }
+        .bounce-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        /* Floating Cloud Animation */
+        @keyframes floatCloud {
+            0% { transform: translateX(-10%); }
+            50% { transform: translateX(10%); }
+            100% { transform: translateX(-10%); }
+        }
+        .animate-cloud-slow {
+            animation: floatCloud 25s ease-in-out infinite;
+        }
+        .animate-cloud-fast {
+            animation: floatCloud 15s ease-in-out infinite reverse;
+        }
+
+        /* Mascot Bounce Animation */
+        @keyframes mascotBob {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+        }
+        .animate-mascot {
+            animation: mascotBob 3s ease-in-out infinite;
+        }
+
+        /* Pulse Highlight */
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(250, 204, 21, 0.6); }
+            50% { box-shadow: 0 0 25px rgba(250, 204, 21, 0.9); }
+        }
+        .glow-effect {
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #38BDF8;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+
+    <!-- Background Decorative SVG Elements -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <!-- Sun -->
+        <div class="absolute top-4 left-4 sm:top-8 sm:left-8 text-yellow-400 animate-spin" style="animation-duration: 40s;">
+            <svg class="w-16 h-16 sm:w-24 sm:h-24" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.707.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 100 2h1z" clip-rule="evenodd"/>
+            </svg>
+        </div>
+        <!-- Clouds -->
+        <div class="absolute top-12 left-1/4 opacity-80 animate-cloud-slow text-white">
+            <i class="fa-solid fa-cloud text-6xl sm:text-8xl"></i>
+        </div>
+        <div class="absolute top-20 right-10 opacity-70 animate-cloud-fast text-white">
+            <i class="fa-solid fa-cloud text-5xl sm:text-7xl"></i>
+        </div>
+        <!-- Bottom Floating Hills & Trees -->
+        <div class="absolute bottom-0 w-full flex justify-between items-end opacity-40 text-emerald-600">
+            <i class="fa-solid fa-tree text-6xl sm:text-9xl -ml-4"></i>
+            <i class="fa-solid fa-seedling text-5xl sm:text-7xl"></i>
+            <i class="fa-solid fa-tree text-7xl sm:text-9xl"></i>
+            <i class="fa-solid fa-mountain text-8xl sm:text-9xl -mr-6"></i>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER -->
+    <div class="relative z-10 max-w-3xl mx-auto w-full p-4 sm:p-6 flex-1 flex flex-col justify-between min-h-screen">
+        
+        <!-- HEADER / TOP BAR -->
+        <header class="bg-white/90 backdrop-blur-md rounded-3xl p-3 sm:p-4 shadow-xl border-4 border-white flex justify-between items-center mb-4">
+            <!-- Progress & Badge -->
+            <div class="flex items-center space-x-3">
+                <div class="bg-sky-100 p-2.5 rounded-2xl border-2 border-sky-300 text-sky-700 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-xl"></i>
+                    <span id="question-progress" class="font-black text-lg sm:text-xl">第 1/10 題</span>
+                </div>
+                <div class="hidden sm:flex items-center space-x-1 text-amber-400 text-lg">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <h1 class="hidden md:block font-black text-emerald-700 text-lg tracking-wide">
+                🌱 二年級常識：生物與環境
+            </h1>
+
+            <!-- Score Display (Top Right Corner - Required) -->
+            <div class="bg-gradient-to-r from-amber-400 to-yellow-300 px-4 py-2 rounded-2xl border-4 border-yellow-100 shadow-md flex items-center space-x-2 glow-effect">
+                <i class="fa-solid fa-trophy text-amber-800 text-xl sm:text-2xl animate-bounce"></i>
+                <div class="flex flex-col">
+                    <span class="text-xs font-bold text-amber-950 uppercase tracking-wider leading-none">得分</span>
+                    <span id="score-display" class="font-black text-xl sm:text-2xl text-amber-950 leading-none">0 分</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- PROGRESS BAR -->
+        <div class="w-full bg-white/70 h-4 rounded-full p-1 mb-4 shadow-inner border border-sky-200 overflow-hidden">
+            <div id="progress-bar-fill" class="bg-gradient-to-r from-emerald-400 to-emerald-500 h-full rounded-full transition-all duration-500 w-10%"></div>
+        </div>
+
+        <!-- MAIN GAME BOARD (START SCREEN / QUESTION / RESULT) -->
+        <main class="flex-1 flex flex-col justify-center my-auto">
+            
+            <!-- START SCREEN CONTAINER -->
+            <div id="start-screen" class="bg-white/95 rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-white text-center flex flex-col items-center space-y-6">
+                <div class="relative">
+                    <div class="w-28 h-28 sm:w-36 sm:h-36 bg-emerald-100 rounded-full flex items-center justify-center border-4 border-emerald-400 shadow-lg animate-mascot">
+                        <i class="fa-solid fa-leaf text-emerald-500 text-6xl sm:text-7xl"></i>
+                    </div>
+                    <span class="absolute -top-2 -right-2 bg-yellow-400 text-amber-950 text-xs font-bold px-3 py-1 rounded-full border-2 border-white shadow">小博士引導</span>
+                </div>
+                
+                <div>
+                    <h2 class="text-2xl sm:text-4xl font-black text-slate-800 mb-2">小小探險家：生物與環境大冒險</h2>
+                    <p class="text-base sm:text-lg text-slate-600 font-medium max-w-md mx-auto">
+                        歡迎來到自然大冒險！回答 10 道問題，考考你對「生物」和「保護環境」的認識吧！
+                    </p>
+                </div>
+
+                <div class="bg-emerald-50 p-4 rounded-2xl border-2 border-emerald-200 text-left max-w-md w-full space-y-2 text-sm sm:text-base text-emerald-900">
+                    <div class="flex items-center space-x-2 font-bold text-emerald-700">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <span>遊戲規則：</span>
+                    </div>
+                    <ul class="list-disc list-inside space-y-1 text-slate-700">
+                        <li>閱讀題目後，選擇 <strong>「是 ✔️」</strong> 或 <strong>「非 ✖️」</strong>。</li>
+                        <li>答對可得 <strong>10 分</strong>，並獲得豐富的常識小知識！</li>
+                        <li>集齊星級評分，成為科學小達人！</li>
+                    </ul>
+                </div>
+
+                <button id="start-btn" onclick="startGame()" class="bounce-hover w-full sm:w-64 bg-gradient-to-b from-emerald-400 to-emerald-600 hover:from-emerald-500 hover:to-emerald-700 text-white font-black text-xl py-4 px-8 rounded-2xl shadow-xl border-b-4 border-emerald-800 flex items-center justify-center space-x-3 cursor-pointer">
+                    <i class="fa-solid fa-play text-2xl"></i>
+                    <span>開始冒險！</span>
+                </button>
+            </div>
+
+            <!-- QUESTION CARD CONTAINER (HIDDEN INITIALLY) -->
+            <div id="question-card" class="hidden flex-col space-y-4">
+                
+                <!-- MASCOT / SPEECH BUBBLE INSTRUCTION OVERLAY -->
+                <div class="bg-amber-100/95 border-2 border-amber-300 rounded-2xl p-3 sm:p-4 shadow-md flex items-center space-x-3 animate-fade-in">
+                    <div class="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-full border-2 border-amber-400 flex-shrink-0 flex items-center justify-center animate-mascot shadow">
+                        <i class="fa-solid fa-graduation-cap text-amber-600 text-xl sm:text-2xl"></i>
+                    </div>
+                    <div class="text-left flex-1">
+                        <span class="text-xs font-bold text-amber-700 uppercase tracking-wide">智慧樹精靈 小貼士</span>
+                        <p id="mascot-speech" class="text-sm sm:text-base text-slate-800 font-bold leading-snug">
+                            仔細閱讀題目，想想我們課堂上學過的生物特徵喔！
+                        </p>
+                    </div>
+                </div>
+
+                <!-- QUESTION DISPLAY BOX -->
+                <div class="bg-white/95 rounded-3xl p-6 sm:p-8 shadow-2xl border-4 border-white min-h-[220px] flex flex-col justify-center items-center text-center relative overflow-hidden">
+                    <span class="absolute top-4 left-4 bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full border border-sky-300">
+                        <i class="fa-circle-question fa-solid mr-1"></i>是非判斷題
+                    </span>
+                    
+                    <h3 id="question-text" class="text-xl sm:text-3xl font-black text-slate-800 leading-relaxed my-4">
+                        題目載入中...
+                    </h3>
+                </div>
+
+                <!-- TRUE / FALSE BUTTONS -->
+                <div class="grid grid-cols-2 gap-4 sm:gap-6 pt-2">
+                    <!-- TRUE BUTTON -->
+                    <button onclick="checkAnswer(true)" class="bounce-hover bg-gradient-to-b from-emerald-400 to-emerald-500 hover:from-emerald-500 hover:to-emerald-600 text-white p-5 sm:p-7 rounded-3xl shadow-xl border-b-8 border-emerald-700 flex flex-col items-center justify-center space-y-2 cursor-pointer">
+                        <i class="fa-solid fa-circle-check text-4xl sm:text-6xl"></i>
+                        <span class="font-black text-2xl sm:text-4xl tracking-wider">是 ✔️</span>
+                    </button>
+
+                    <!-- FALSE BUTTON -->
+                    <button onclick="checkAnswer(false)" class="bounce-hover bg-gradient-to-b from-rose-400 to-rose-500 hover:from-rose-500 hover:to-rose-600 text-white p-5 sm:p-7 rounded-3xl shadow-xl border-b-8 border-rose-700 flex flex-col items-center justify-center space-y-2 cursor-pointer">
+                        <i class="fa-solid fa-circle-xmark text-4xl sm:text-6xl"></i>
+                        <span class="font-black text-2xl sm:text-4xl tracking-wider">非 ✖️</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- RESULT / VICTORY SUMMARY SCREEN (HIDDEN INITIALLY) -->
+            <div id="result-screen" class="hidden bg-white/95 rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-white text-center flex-col items-center space-y-6">
+                
+                <div id="star-rating" class="flex justify-center space-x-3 text-5xl sm:text-6xl text-amber-400 my-2">
+                    <i class="fa-solid fa-star animate-bounce" style="animation-delay: 0.1s;"></i>
+                    <i class="fa-solid fa-star animate-bounce" style="animation-delay: 0.2s;"></i>
+                    <i class="fa-solid fa-star animate-bounce" style="animation-delay: 0.3s;"></i>
+                </div>
+
+                <div>
+                    <h2 id="result-title" class="text-3xl sm:text-4xl font-black text-slate-800 mb-2">冒險完成！</h2>
+                    <p id="result-subtitle" class="text-base sm:text-lg text-slate-600 font-bold">你太棒了！成為了優秀的自然探險家！</p>
+                </div>
+
+                <!-- SCORE STATS CARD -->
+                <div class="bg-amber-50 rounded-2xl p-6 border-2 border-amber-200 w-full max-w-md flex justify-around items-center">
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs text-amber-800 font-bold uppercase">總得分</span>
+                        <span id="final-score" class="text-3xl sm:text-4xl font-black text-amber-600">100</span>
+                    </div>
+                    <div class="h-10 w-0.5 bg-amber-200"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-xs text-amber-800 font-bold uppercase">答對題數</span>
+                        <span id="final-correct-count" class="text-3xl sm:text-4xl font-black text-emerald-600">10 / 10</span>
+                    </div>
+                </div>
+
+                <button onclick="startGame()" class="bounce-hover w-full sm:w-64 bg-gradient-to-b from-sky-400 to-sky-600 hover:from-sky-500 hover:to-sky-700 text-white font-black text-xl py-4 px-8 rounded-2xl shadow-xl border-b-4 border-sky-800 flex items-center justify-center space-x-3 cursor-pointer">
+                    <i class="fa-solid fa-rotate-right text-2xl"></i>
+                    <span>再玩一次</span>
+                </button>
+            </div>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="text-center text-xs sm:text-sm font-bold text-sky-800/80 pt-4">
+            🎓 小學二年級常識科複習遊戲 | 生物與環境
+        </footer>
+
+    </div>
+
+    <!-- EXPLANATION MODAL POPUP (FEEDBACK OVERLAY) -->
+    <div id="explanation-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-4 border-white flex flex-col items-center text-center space-y-4 animate-bounce-in relative">
+            
+            <!-- Result Icon Indicator -->
+            <div id="modal-icon-bg" class="w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center text-white text-5xl shadow-lg">
+                <i id="modal-icon" class="fa-solid fa-check"></i>
+            </div>
+
+            <!-- Modal Result Title -->
+            <h3 id="modal-status" class="text-2xl sm:text-3xl font-black text-slate-800">回答正確！</h3>
+
+            <!-- Explanation Content -->
+            <div class="bg-slate-50 p-4 sm:p-5 rounded-2xl border-2 border-slate-200 text-left w-full">
+                <span class="text-xs font-bold text-sky-600 uppercase tracking-wide flex items-center gap-1 mb-1">
+                    <i class="fa-lightbulb fa-solid"></i> 常識小博士說：
+                </span>
+                <p id="modal-explanation" class="text-base sm:text-lg text-slate-700 font-bold leading-relaxed">
+                    引導說明內容...
+                </p>
+            </div>
+
+            <!-- Next Question Button -->
+            <button onclick="nextQuestion()" class="bounce-hover w-full bg-gradient-to-b from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 text-amber-950 font-black text-xl py-3.5 px-6 rounded-2xl shadow-lg border-b-4 border-amber-700 flex items-center justify-center space-x-2 cursor-pointer">
+                <span>下一題</span>
+                <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Web Audio API Sound Synthesizer for Audio Feedback
+        class SoundEffects {
+            constructor() {
+                this.ctx = null;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            playCorrect() {
+                this.init();
+                if (!this.ctx) return;
+                
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+                osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.35); // C6
+
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.5);
+            }
+
+            playWrong() {
+                this.init();
+                if (!this.ctx) return;
+
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now); // A3
+                osc.frequency.linearRampToValueAtTime(140, now + 0.3); // Drop pitch
+
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+
+            playVictory() {
+                this.init();
+                if (!this.ctx) return;
+
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    const now = this.ctx.currentTime + (idx * 0.12);
+
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now);
+
+                    gain.gain.setValueAtTime(0.25, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+
+                    osc.start(now);
+                    osc.stop(now + 0.4);
+                });
+            }
+        }
+
+        const sounds = new SoundEffects();
+
+        // 10 Quiz Questions with Chinese Prompts & Explanations
+        const questionsData = [
+            {
+                question: "1. 只有動物和植物是生物。",
+                answer: false,
+                explanation: "非！除了動物和植物，細菌、真菌（例如蘑菇）也是生物喔！"
+            },
+            {
+                question: "2. 玩具車會向前跑，所以它是生物。",
+                answer: false,
+                explanation: "非！玩具車不會自己生長、呼吸和繁殖，所以它是非生物。"
+            },
+            {
+                question: "3. 含羞草被觸碰後會合起葉子，這是生物對刺激作出反應的例子。",
+                answer: true,
+                explanation: "是！植物也會對外界刺激作出反應呢！"
+            },
+            {
+                question: "4. 植物沒有嘴巴，所以它們不需要吃東西或喝水。",
+                answer: false,
+                explanation: "非！植物透過根部吸收水分，並利用陽光自己製造食物。"
+            },
+            {
+                question: "5. 植物的葉子是用來吸收泥土裡的水分的。",
+                answer: false,
+                explanation: "非！植物的根才是用來吸收水分和養分的，葉子負責製造食物。"
+            },
+            {
+                question: "6. 動物吃東西只是因為貪吃。",
+                answer: false,
+                explanation: "非！動物吃東西是為了獲取維持生命過程所需的能量。"
+            },
+            {
+                question: "7. 當動物遇到危險（例如老虎走近）時，它們可能會逃跑或躲起來。",
+                answer: true,
+                explanation: "是！這是動物對危險作出的本能反應，用來保護自己。"
+            },
+            {
+                question: "8. 人類把垃圾丟進河裡，只會令河水變髒，對水裡的小魚沒有影響。",
+                answer: false,
+                explanation: "非！河流污染會破壞水生動物的棲息地，小魚可能會生病甚至死亡。"
+            },
+            {
+                question: "9. 空氣污染只會影響人類健康。",
+                answer: false,
+                explanation: "非！空氣污染也會傷害動物和植物，影響整個大自然的健康。"
+            },
+            {
+                question: "10. 為了保護環境，我們可以減少使用即棄的塑膠袋，並把垃圾分類。",
+                answer: true,
+                explanation: "是！做得好！減少塑膠和實行垃圾分類，能有效保護我們的地球。"
+            }
+        ];
+
+        // Mascot Helpful Tips array
+        const mascotTips = [
+            "想一想，微生物（如細菌）算不算是生物呢？",
+            "想想看，玩具車需要吃東西或長大嗎？",
+            "含羞草非常敏感，輕輕一碰就會合起來喔！",
+            "植物是怎樣獲得營養和水分的呢？",
+            "葉子和根部各有不同的分工職責喔！",
+            "食物能為動物提供什麼重要的東西？",
+            "遇到強大的捕食者時，小動物會怎麼做？",
+            "河水受污染後，居住在水裡的生物會怎樣？",
+            "大氣層的空氣是所有生物共同呼吸的喔！",
+            "保護地球，從小事做起，分類減塑最棒了！"
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let correctCount = 0;
+
+        // Start Game Function
+        function startGame() {
+            currentQuestionIndex = 0;
+            score = 0;
+            correctCount = 0;
+
+            document.getElementById("score-display").textContent = score + " 分";
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("result-screen").classList.add("hidden");
+            document.getElementById("question-card").classList.remove("hidden");
+            document.getElementById("question-card").classList.add("flex");
+
+            loadQuestion();
+        }
+
+        // Load Question Function
+        function loadQuestion() {
+            const currentQ = questionsData[currentQuestionIndex];
+            
+            // Update question text and mascot speech
+            document.getElementById("question-text").textContent = currentQ.question;
+            document.getElementById("mascot-speech").textContent = mascotTips[currentQuestionIndex];
+            
+            // Update Question counter
+            document.getElementById("question-progress").textContent = `第 ${currentQuestionIndex + 1}/${questionsData.length} 題`;
+            
+            // Update progress bar
+            const percentage = ((currentQuestionIndex + 1) / questionsData.length) * 100;
+            document.getElementById("progress-bar-fill").style.width = `${percentage}%`;
+        }
+
+        // Check Answer Function
+        function checkAnswer(userChoice) {
+            const currentQ = questionsData[currentQuestionIndex];
+            const isCorrect = (userChoice === currentQ.answer);
+
+            const modal = document.getElementById("explanation-modal");
+            const modalIconBg = document.getElementById("modal-icon-bg");
+            const modalIcon = document.getElementById("modal-icon");
+            const modalStatus = document.getElementById("modal-status");
+            const modalExplanation = document.getElementById("modal-explanation");
+
+            if (isCorrect) {
+                sounds.playCorrect();
+                score += 10;
+                correctCount++;
+                document.getElementById("score-display").textContent = score + " 分";
+
+                modalIconBg.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center text-white text-5xl shadow-lg bg-emerald-500";
+                modalIcon.className = "fa-solid fa-check";
+                modalStatus.textContent = "答對了！太厲害了！🌟";
+                modalStatus.className = "text-2xl sm:text-3xl font-black text-emerald-600";
+            } else {
+                sounds.playWrong();
+                modalIconBg.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-full flex items-center justify-center text-white text-5xl shadow-lg bg-rose-500";
+                modalIcon.className = "fa-solid fa-xmark";
+                modalStatus.textContent = "差一點點！加油！💪";
+                modalStatus.className = "text-2xl sm:text-3xl font-black text-rose-600";
+            }
+
+            modalExplanation.textContent = currentQ.explanation;
+            modal.classList.remove("hidden");
+        }
+
+        // Advance to Next Question or Show Results
+        function nextQuestion() {
+            document.getElementById("explanation-modal").classList.add("hidden");
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questionsData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Show Results Summary Screen
+        function showResults() {
+            sounds.playVictory();
+
+            document.getElementById("question-card").classList.add("hidden");
+            document.getElementById("question-card").classList.remove("flex");
+            document.getElementById("result-screen").classList.remove("hidden");
+            document.getElementById("result-screen").classList.add("flex");
+
+            document.getElementById("final-score").textContent = score + " 分";
+            document.getElementById("final-correct-count").textContent = `${correctCount} / ${questionsData.length}`;
+
+            const starContainer = document.getElementById("star-rating");
+            const resultTitle = document.getElementById("result-title");
+            const resultSubtitle = document.getElementById("result-subtitle");
+
+            // Calculate Stars & Feedback
+            if (score === 100) {
+                starContainer.innerHTML = `
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                `;
+                resultTitle.textContent = "🏆 滿分大滿貫！";
+                resultSubtitle.textContent = "太驚人了！你是優秀的常識小博士！";
+            } else if (score >= 70) {
+                starContainer.innerHTML = `
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <i class="fa-regular fa-star text-amber-300"></i>
+                `;
+                resultTitle.textContent = "🎉 表現非常棒！";
+                resultSubtitle.textContent = "你對大自然和生物了解得非常清楚！";
+            } else {
+                starContainer.innerHTML = `
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <i class="fa-regular fa-star text-amber-300"></i>
+                    <i class="fa-regular fa-star text-amber-300"></i>
+                `;
+                resultTitle.textContent = "👍 繼續努力喔！";
+                resultSubtitle.textContent = "再複習一下小知識，下次一定能拿滿分！";
+            }
+        }
+    </script>
+</body>
+</html>
